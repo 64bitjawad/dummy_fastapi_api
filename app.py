@@ -18,8 +18,15 @@ def root():
     return {"status": "ok"}
 
 
-@app.post("/predict")
-def predict(req: PredictRequest):
+@app.api_route("/predict", methods=["GET", "POST"])
+def predict(req: PredictRequest = None):
+
+    # Simple GET health check
+    if req is None:
+        return {
+            "status": "ok",
+            "message": "Prediction endpoint reachable"
+        }
 
     X = np.array(req.instances)
 
